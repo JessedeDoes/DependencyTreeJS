@@ -26,6 +26,13 @@ const SVG_CONFIG = {
 const ROOT_ID_IN_SVG = -1;
 // const dragclickthreshold = 400; //ms
 
+interface Box {
+  width:  number;
+  height: number;
+  x:      number;
+  y:      number;
+}
+
 ///////////////                ////////////////
 ///////////////   SentenceSVG  ////////////////
 ///////////////                ////////////////
@@ -83,6 +90,7 @@ export class SentenceSVG extends EventDispatcher {
   orderOfTokens: string[] = [];
   tokenIndexToSvgPosition: { [key: string]: number } = {};
   options: SentenceSVGOptions = defaultSentenceSVGOptions();
+  presetLocations: { [key: string]: Box } = {};
 
   constructor(svgWrapper: SVGElement, reactiveSentence: ReactiveSentence, sentenceSVGOptions: SentenceSVGOptions) {
     super();
@@ -210,12 +218,17 @@ export class SentenceSVG extends EventDispatcher {
     const offsetY = SVG_CONFIG.startTextY + maxLevelY * this.options.arcHeight;
 
     let tokenSvgIndex = 0;
+    const firstX = "1" in this.presetLocations?this.presetLocations["1"].x:0;
     for (const tokenJsonIndex of this.orderOfTokens) {
       const tokenJson = getNodeFromTreeJson(this.treeJson, tokenJsonIndex);
       if (tokenJson) {
         const tokenSVG = new TokenSVG(tokenJson, this);
         this.tokenSVGs.push(tokenSVG);
-        tokenSVG.createSnap(this.snapSentence, this.options.shownFeatures, runningX, offsetY);
+	const tid = tokenJsonIndex;
+	console.log(`populating ${tid}, ${Object.keys(this.presetLocations)}`)
+	if (tid in this.presetLocations) console.log(`preset box X value for ${tid}: ${this.presetLocations[tid].x}`);
+	const theX = (tid in this.presetLocations)?this.presetLocations[tid].x - firstX:runningX;
+        tokenSVG.createSnap(this.snapSentence, this.options.shownFeatures, theX, offsetY);
         tokenSVG.ylevel = this.levelsArray[tokenSvgIndex];
         runningX += tokenSVG.width;
         tokenSvgIndex += 1;

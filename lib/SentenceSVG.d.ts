@@ -2,6 +2,12 @@ import Snap from 'snapsvg-cjs';
 import { treeJson_T, tokenJson_T, metaJson_T } from 'conllup/lib/conll';
 import { EventDispatcher } from './EventDispatcher';
 import { ReactiveSentence } from './ReactiveSentence';
+interface Box {
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+}
 export interface SentenceSVGOptions {
     drawEnhancedTokens: boolean;
     drawGroupTokens: boolean;
@@ -41,6 +47,9 @@ export declare class SentenceSVG extends EventDispatcher {
         [key: string]: number;
     };
     options: SentenceSVGOptions;
+    presetLocations: {
+        [key: string]: Box;
+    };
     constructor(svgWrapper: SVGElement, reactiveSentence: ReactiveSentence, sentenceSVGOptions: SentenceSVGOptions);
     drawTree(): void;
     update(reactiveSentence: ReactiveSentence): void;

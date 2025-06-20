@@ -1,7 +1,7 @@
 
 
 {
-  "name": "dependencytreejs",
+  "name": "dependencytreejs_fork",
   "version": "2.4.4",
   "description": "Core data structure for dependency tree in the browser",
   "main": "index.js",
