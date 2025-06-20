@@ -225,8 +225,8 @@ export class SentenceSVG extends EventDispatcher {
         const tokenSVG = new TokenSVG(tokenJson, this);
         this.tokenSVGs.push(tokenSVG);
 	const tid = tokenJsonIndex;
-	console.log(`populating ${tid}, ${Object.keys(this.presetLocations)}`)
-	if (tid in this.presetLocations) console.log(`preset box X value for ${tid}: ${this.presetLocations[tid].x}`);
+	// console.log(`populating ${tid}, ${Object.keys(this.presetLocations)}`)
+	// if (tid in this.presetLocations) console.log(`preset box X value for ${tid}: ${this.presetLocations[tid].x}`);
 	const theX = (tid in this.presetLocations)?this.presetLocations[tid].x - firstX:runningX;
         tokenSVG.createSnap(this.snapSentence, this.options.shownFeatures, theX, offsetY);
         tokenSVG.ylevel = this.levelsArray[tokenSvgIndex];
